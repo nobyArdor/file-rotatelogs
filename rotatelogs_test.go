@@ -808,3 +808,32 @@ func TestForceNewFile2(t *testing.T) {
 	t.Log(len(filteredFiles), files)
 	assert.Equal(t, 2, len(filteredFiles))
 }
+
+func TestSyncWrite(t *testing.T) {
+	dir, err := os.MkdirTemp("", "file-rotatelogs-sync-write")
+	if !assert.NoError(t, err, `creating temporary directory should succeed`) {
+		return
+	}
+	defer os.RemoveAll(dir)
+
+	baseFn := filepath.Join(dir, "force-sync-write.log")
+	rl, err := rotatelogs.New(
+		baseFn,
+		rotatelogs.WithSyncWrite(),
+	)
+	if !assert.NoError(t, err, "rotatelogs.New should succeed") {
+		return
+	}
+	rl.Write([]byte("Hello, World!"))
+
+	assert.FileExists(t, baseFn, "file does not exist %s", baseFn)
+	content, err := os.ReadFile(baseFn)
+	if !assert.NoError(t, err, "os.ReadFile should succeed") {
+		return
+	}
+	if !assert.Equal(t, "Hello, World!", string(content), "read %s from file %s, not expected Hello, World!", string(content), baseFn) {
+		return
+	}
+	rl.Close()
+
+}

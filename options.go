@@ -19,6 +19,7 @@ const (
 	optKeyGlobPattern      = "glob-pattern"
 	optKeyCompress         = "compress"
 	optKeyCleanLockFile    = "clean-lock-file"
+	optKeySyncWrite        = "sync-write"
 )
 
 // WithClock creates a new Option that sets a clock
@@ -106,4 +107,8 @@ func WithCompress(compress bool) Option {
 
 func WithCleanLockFile(lockName string) Option {
 	return option.New(optKeyCleanLockFile, lockName)
+}
+
+func WithSyncWrite() Option {
+	return option.New(optKeySyncWrite, true)
 }

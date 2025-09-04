@@ -57,6 +57,7 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 	var reservedDiskSize int64
 	var compress bool
 	var cleanLockName = filepath.Join(logPath, ".rotate_clean_lock")
+	var syncWrite bool
 
 	for _, o := range options {
 		switch o.Name() {
@@ -93,6 +94,8 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 			compress = o.Value().(bool)
 		case optKeyCleanLockFile:
 			cleanLockName = o.Value().(string)
+		case optKeySyncWrite:
+			syncWrite = true
 		}
 	}
 
@@ -114,6 +117,7 @@ func New(p string, options ...Option) (*RotateLogs, error) {
 		exitChan:         make(chan struct{}),
 		done:             make(chan struct{}),
 		cleanLockName:    cleanLockName,
+		syncWrite:        syncWrite,
 	}
 	if reservedDiskSize > 0 {
 		err = os.MkdirAll(rl.logPath, 0755)
@@ -171,8 +175,11 @@ func (rl *RotateLogs) Write(p []byte) (n int, err error) {
 	if err != nil {
 		return 0, errors.Wrap(err, `failed to acquite target io.Writer`)
 	}
-
-	return out.Write(p)
+	n, err = out.Write(p)
+	if err == nil && rl.syncWrite {
+		out.Sync()
+	}
+	return n, err
 }
 
 func (rl *RotateLogs) diskSpaceEnough() bool {

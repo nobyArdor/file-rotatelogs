@@ -58,6 +58,7 @@ type RotateLogs struct {
 	exitChan         chan struct{}
 	done             chan struct{}
 	cleanLockName    string
+	syncWrite        bool
 }
 
 // Clock is the interface used by the RotateLogs
