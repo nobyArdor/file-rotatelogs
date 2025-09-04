@@ -1,4 +1,4 @@
-module github.com/taosdata/file-rotatelogs/v2
+module github.com/nobyArdor/file-rotatelogs/v2
 
 go 1.17
 

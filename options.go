@@ -3,7 +3,7 @@ package rotatelogs
 import (
 	"time"
 
-	"github.com/taosdata/file-rotatelogs/v2/internal/option"
+	"github.com/nobyArdor/file-rotatelogs/v2/internal/option"
 )
 
 const (

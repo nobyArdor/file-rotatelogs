@@ -7,8 +7,8 @@ import (
 
 	"github.com/jonboulle/clockwork"
 	"github.com/lestrrat-go/strftime"
+	"github.com/nobyArdor/file-rotatelogs/v2/internal/fileutil"
 	"github.com/stretchr/testify/assert"
-	"github.com/taosdata/file-rotatelogs/v2/internal/fileutil"
 )
 
 func TestGenerateFn(t *testing.T) {

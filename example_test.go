@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	rotatelogs "github.com/taosdata/file-rotatelogs/v2"
+	rotatelogs "github.com/nobyArdor/file-rotatelogs/v2"
 )
 
 func ExampleForceNewFile() {

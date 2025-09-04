@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/jonboulle/clockwork"
+	rotatelogs "github.com/nobyArdor/file-rotatelogs/v2"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
-	rotatelogs "github.com/taosdata/file-rotatelogs/v2"
 )
 
 func TestSatisfiesIOWriter(t *testing.T) {

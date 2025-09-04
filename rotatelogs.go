@@ -19,8 +19,8 @@ import (
 	"time"
 
 	"github.com/lestrrat-go/strftime"
+	"github.com/nobyArdor/file-rotatelogs/v2/internal/fileutil"
 	"github.com/pkg/errors"
-	"github.com/taosdata/file-rotatelogs/v2/internal/fileutil"
 )
 
 const CheckDiskSizeInterval = 25 * time.Second
