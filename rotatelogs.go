@@ -201,7 +201,7 @@ func (rl *RotateLogs) getWriterNolock(bailOnRotateFail, useGenerationalNames boo
 	if rl.curBaseFn == "" {
 		// first start, check the generation number
 		var latestLogFile os.DirEntry
-		generation, latestLogFile, err = getLatestLogFile(baseFn)
+		generation, latestLogFile, _ = getLatestLogFile(baseFn)
 		if latestLogFile != nil {
 			// end with gz means it is compressed, need to force new file
 			if strings.HasSuffix(latestLogFile.Name(), ".gz") {
@@ -615,7 +615,7 @@ func (rl *RotateLogs) checkLogInuse(filename string) bool {
 		// get stat failed, return in use, maybe lock file is broken
 		return true
 	}
-	if time.Now().Sub(stat.ModTime()) < time.Second*1 {
+	if time.Since(stat.ModTime()) < time.Second*1 {
 		// lock file modify time is less than 1 second, return in use, maybe lock file is not locked
 		return true
 	}
